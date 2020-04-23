@@ -31,17 +31,25 @@ app.get("/notes", function(req, res) {
 
 // API GET Route
 const noteData = require("./db/db.json");
-const noteDataWithID = noteData.map((x, i) => ({ ...x, uniqueID: i,}));
+// const noteDataWithID = noteData.map((x, i) => ({ ...x, uniqueID: i,}));
 
 app.get("/api/notes" , function(req, res) {
-   return res.json(noteDataWithID);
+   return res.json(noteData);
+});
+
+app.get("/api/notes/:uniqueid", function(req, res) {
+      
 });
 
 
 // API POST Route
 app.post("/api/notes", function(req, res) {
-    noteDataWithID.push(req.body);
-    return res.json
+    let newNote = req.body;
+    for (i=0; i<noteData.length+1; i++) {
+        newNote.uniqueID = i+1;
+    }
+    noteData.push(newNote);
+    res.json(newNote);
 });
 
 // Initiate Listener to start server
